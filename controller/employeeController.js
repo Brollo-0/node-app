@@ -1,29 +1,34 @@
-import bodyParser from "body-parser"
 import Employee from "../model/employeeModel.js"
 
-export const create = async(req, res) => {
+export const create = async (req, res) => {
     try {
-        const employeeData = new Employee(req, body)
-        const {userName} = employeeData
-        const employeeExists = await Employee.findOne({userName})
+        const { userName } = req.body
 
-        if(employeeExist) {
-            return res.status(200).json({message: "Employee already exists."})
+        if (!userName) {
+            return res.status(400).json({ message: "userName is required" })
         }
 
-        const savedEmployee = await employeeData.save();
-        res.status(200).json(savedEmployee)
-        
-    } catch(error) {
-        return res.status(200).json({error: "Internal Server Error"})
+        const employeeExist = await Employee.findOne({ userName })
+
+        if (employeeExist) {
+            return res.status(409).json({ message: "Employee already exists." })
+        }
+
+        const employeeData = new Employee(req.body)
+        const savedEmployee = await employeeData.save()
+
+        return res.status(201).json(savedEmployee)
+    } catch (error) {
+        console.error("create employee error:", error)
+        return res.status(500).json({ error: "Internal Server Error" })
     }
 }
 
 
-export const fetch = async(req, res) => {
+export const fetch = async (req, res) => {
     try {
         res.json("Hello World")
     } catch (error) {
-        res.status(500).json({error: "Internal Server Error"})
+        res.status(500).json({ error: "Internal Server Error" })
     }
 }

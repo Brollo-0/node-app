@@ -18,6 +18,11 @@ const employeeSchema = new mongoose.Schema({
     title : {
         type: String,
         required: true,
+    },
+
+    quote : {
+        type: String,
+        required: true,
     }
 })
 
