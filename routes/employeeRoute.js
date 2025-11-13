@@ -1,5 +1,5 @@
 import express from "express"
-import {create, fetch, update, deleteEmployee} from "../controller/employeeController.js"
+import {create, fetch, update} from "../controller/employeeController.js"
 const route = express.Router()
 
 route.post("/create", create)
